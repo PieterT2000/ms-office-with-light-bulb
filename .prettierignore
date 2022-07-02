@@ -1,0 +1,7 @@
+.gitignore
+package.json
+nodemon.json
+yarn.lock
+node_modules
+example
+.env*

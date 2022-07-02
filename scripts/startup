@@ -1,0 +1,10 @@
+#!/bin/bash
+tmux kill-session -a
+SESSION_ID="session_0"
+PORT=$(pcregrep -o1 '^PORT=([0-9]{4}$)' .env)
+tmux new-session -d -s $SESSION_ID "ngrok http $PORT"
+sleep 2
+TUNNELS=$(curl -s localhost:4040/api/tunnels)
+ENDPOINT=$(echo $TUNNELS | pcregrep -o1 '"public_url":\s?"(https://.*\.ngrok.io)"')
+tmux split-window -t $SESSION_ID -dh "echo $ENDPOINT; ENDPOINT=$ENDPOINT yarn watch"
+tmux attach -t $SESSION_ID
