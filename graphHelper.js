@@ -69,27 +69,13 @@ async function getUserInfo() {
   return user
 }
 
-async function subscribeToEmail(notificationUrl) {
-  if (!userClient) {
-    throw new Error('User client is required')
-  }
-
-  const subscription = {
-    changeType: 'created',
-    notificationUrl,
-    resource: "me/mailFolders('Inbox')/messages",
-    expirationDateTime: '2022-07-04T18:23:45.9356913Z',
-    clientState: 'secretClientValue',
-    latestSupportedTlsVersion: 'v1_2',
-  }
-
-  const response = await userClient.api('/subscriptions').post(subscription)
-  return response
+function getClient() {
+  return userClient
 }
 
 module.exports = {
   initialiseGraphForUserAuth,
   getUserToken,
   getUserInfo,
-  subscribeToEmail,
+  getClient,
 }

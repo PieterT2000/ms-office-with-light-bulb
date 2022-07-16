@@ -1,12 +1,21 @@
 require('dotenv').config()
 require('./server')
 const graphHelper = require('./graphHelper')
+const subscriptions = require('./subscriptions')
 
 function initialize() {
   console.log('Initializing...')
   graphHelper.initialiseGraphForUserAuth(info => {
     console.log(info.message)
   })
+}
+
+function initializeSubscriptions() {
+  console.log('Initializing subscriptions...')
+  subscriptions.EmailSubscription.initialize(
+    graphHelper.getClient(),
+    `${process.env.ENDPOINT}/email`
+  )
 }
 
 async function displayUserInfo() {
@@ -23,5 +32,6 @@ async function main() {
   initialize()
   // const token = await graphHelper.getUserToken()
   displayUserInfo()
+  initializeSubscriptions()
 }
 main()

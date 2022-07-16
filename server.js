@@ -1,9 +1,9 @@
 const express = require('express')
 const { createServer } = require('http')
-const { subscribeToEmail } = require('./graphHelper')
-const { blinkLight } = require('./lightbulb')
+const { blinkLight, blue } = require('./lightbulb')
 
 const app = express()
+app.use(express.json())
 const server = createServer(app)
 
 const port = process.env.PORT
@@ -14,22 +14,14 @@ app.get('/', (req, res) => {
   res.send('Ok')
 })
 
-app.post('', (req, res) => {
+app.post('/email', (req, res) => {
   const token = req.query.validationToken
   if (token) res.send(token)
-  else {
-    blinkLight(4000)
+  else if (req.body.value[0].clientState === 'emailSubscription') {
+    // TODO: Handle superfluous triggers
+    console.log()
+    blinkLight(4000, blue)
     res.status(200)
-  }
-})
-
-app.get('/register', async (req, res) => {
-  try {
-    const msg = await subscribeToEmail(process.env.ENDPOINT)
-    res.send(msg)
-  } catch (error) {
-    console.log(error)
-    res.send(error)
   }
 })
 
