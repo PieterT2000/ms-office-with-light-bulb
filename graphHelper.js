@@ -65,7 +65,10 @@ async function getUserInfo() {
     throw new Error('User client is required')
   }
 
-  const user = await userClient.api('/me').select(['displayName', 'mail']).get()
+  const user = await userClient
+    .api('/me')
+    .select(['displayName', 'mail', 'id'])
+    .get()
   return user
 }
 

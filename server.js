@@ -1,6 +1,6 @@
 const express = require('express')
 const { createServer } = require('http')
-const { blinkLight, blue } = require('./lightbulb')
+const { blinkLight, blue, purple } = require('./lightbulb')
 
 const app = express()
 app.use(express.json())
@@ -14,15 +14,18 @@ app.get('/', (req, res) => {
   res.send('Ok')
 })
 
-app.post('/email', (req, res) => {
+app.post('/', (req, res) => {
   const token = req.query.validationToken
-  if (token) res.send(token)
-  else if (req.body.value[0].clientState === 'emailSubscription') {
+  if (token) return res.send(token)
+
+  const notificationType = req.body.value[0].clientState
+  if (notificationType === 'EmailSubscription') {
     // TODO: Handle superfluous triggers
-    console.log()
     blinkLight(4000, blue)
-    res.status(200)
+  } else if (notificationType === 'TeamsSubscription') {
+    blinkLight(4000, purple)
   }
+  res.status(200)
 })
 
 console.log(`Server running on port ${port}`)

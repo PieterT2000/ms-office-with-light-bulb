@@ -11,11 +11,10 @@ function initialize() {
 }
 
 function initializeSubscriptions() {
+  const userClient = graphHelper.getClient()
   console.log('Initializing subscriptions...')
-  subscriptions.EmailSubscription.initialize(
-    graphHelper.getClient(),
-    `${process.env.ENDPOINT}/email`
-  )
+  subscriptions.EmailSubscription.initialize(userClient, process.env.ENDPOINT)
+  subscriptions.TeamsSubscription(userClient).register(process.env.ENDPOINT)
 }
 
 async function displayUserInfo() {
