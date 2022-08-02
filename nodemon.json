@@ -1,6 +1,11 @@
 {
   "delay": 200,
   "ignore": [
-    "node_modules"
+    "node_modules",
+    "log.json",
+    "crypto",
+    "bin",
+    "nodemon.json",
+    "lib/db/db.json"
   ]
 }

@@ -3,3 +3,5 @@ example
 .env
 bin
 token.json
+crypto
+lib/db/db.json
