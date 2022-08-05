@@ -56,7 +56,11 @@ app.post('/', async (req, res) => {
     if (valid) {
       const data = decryptResourceData(body.value[0].encryptedContent)
       const resourceData = JSON.parse(data)
-      if (data && !db.has(resourceData.etag)) {
+      const isFreshTrigger = !db.has(resourceData.etag)
+      const isNotMyOwnMsg =
+        resourceData.from?.user?.id !== '05a18737-cc32-43ef-95b8-0a2b70afcc65'
+      // const isNotMyOwnReaction = resourceData.
+      if (isFreshTrigger && isNotMyOwnMsg) {
         logToJsonFile(resourceData)
         blinkLight(4000, purple)
         db.set(resourceData.etag, true)

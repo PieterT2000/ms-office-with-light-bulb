@@ -13,7 +13,7 @@ function initialize() {
 function initializeSubscriptions() {
   const userClient = graphHelper.getClient()
   console.log('Initializing subscriptions...')
-  subscriptions.EmailSubscription(userClient).register(process.env.ENDPOINT)
+  // subscriptions.EmailSubscription(userClient).register(process.env.ENDPOINT)
   subscriptions.TeamsSubscription(userClient).register(process.env.ENDPOINT)
 }
 
